@@ -7,7 +7,7 @@ MockJs.mock('/admin/config/search', 'post', (options) => {
     data = {
       "key": "appName",
       "description": "系统名称",
-      "value": "monorepo系统",
+      "value": "monorepo空间系统",
       "type": "99",
       "sort": "0",
       "enable": "1",
