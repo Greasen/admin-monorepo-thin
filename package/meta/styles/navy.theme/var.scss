@@ -1,0 +1,139 @@
+@use 'sass:map';
+@use '../function.scss' as *;
+
+$color: #0059ff;
+
+// @debug mix(#000, desaturate(#0059ff, 26), 64);
+// @debug lightness(#123678); // 查看亮度百分比
+// @debug saturation(#123678); // 查看饱和度百分比
+// @debug desaturate(#0059ff, 26); // 设置饱和度
+
+// Background
+// 混入 26 的灰度，设置饱和度，混入 64 的黑，设置亮度
+$bg-color: () !default;
+$bg-color: map.merge(
+  (
+    'page': mix(#000, $color, 35),
+    '': mix(#000, desaturate($color, 26), 50),
+    'overlay': mix(#000, $color, 64),
+  ),
+  $bg-color
+);
+
+// fill
+$fill-color-base: mix(#000, $color, 5);
+$fill-color: () !default;
+$fill-color: map.merge(
+  (
+    'darker': rgba($fill-color-base, 0.2),
+    'dark': rgba($fill-color-base, 0.16),
+    '': rgba($fill-color-base, 0.12),
+    'light': rgba($fill-color-base, 0.08),
+    'lighter': rgba($fill-color-base, 0.04),
+    'extra-light': rgba($fill-color-base, 0.02),
+    'blank': transparent,
+    'half': rgba($fill-color-base, 0.3),
+  ),
+  $fill-color
+);
+
+// mask
+$mask-color: () !default;
+$mask-color: map.merge(
+  (
+    '': rgb(0 18 34 / 80%),
+    'extra-light': rgb(0 25 48 / 30%),
+  ),
+  $mask-color
+);
+
+// border
+$border-color-base: mix(#fff, $color, 50);
+$border-color: () !default;
+$border-color: map.merge(
+  (
+    'darker': rgba($border-color-base, 0.35),
+    'dark': rgba($border-color-base, 0.3),
+    '': rgba($border-color-base, 0.25),
+    'light': rgba($border-color-base, 0.2),
+    'lighter': rgba($border-color-base, 0.15),
+    'extra-light': rgba($border-color-base, 0.1),
+  ),
+  $border-color
+);
+
+// mix to hex to avoid overlay issues
+@each $key, $val in $border-color {
+  $border-color: map.merge(
+    $border-color,
+    (
+      $key: mix-overlay-color($val, map.get($bg-color, '')),
+    )
+  ) !global;
+}
+
+// text
+$text-color-base: #fff;
+$text-color: () !default;
+$text-color: map.merge(
+  (
+    'primary': rgba($text-color-base, 0.95),
+    'regular': rgba($text-color-base, 0.85),
+    'secondary': rgba($text-color-base, 0.65),
+    'placeholder': rgba($text-color-base, 0.55),
+    'disabled': rgba($text-color-base, 0.4),
+  ),
+  $text-color
+);
+
+// mix to hex to avoid overlay issues
+@each $key, $val in $text-color {
+  $text-color: map.merge(
+    $text-color,
+    (
+      $key: mix-overlay-color($val, map.get($bg-color, '')),
+    )
+  ) !global;
+}
+
+// Button
+// css3 var in packages/theme-chalk/src/button.scss
+$button: () !default;
+$button: map.merge(
+  (
+    'disabled-text-color': rgb(255 255 255 / 50%),
+  ),
+  $button
+);
+
+// card
+$card: () !default;
+$card: map.merge(
+  (
+    'bg-color': getcssvar('bg-color', 'overlay'),
+  ),
+  $card
+);
+
+// Empty
+// css3 var in packages/theme-chalk/src/empty.scss
+$empty: () !default;
+$empty: map.merge(
+  (
+    'padding': 40px 0,
+    'image-width': 160px,
+    'description-margin-top': 20px,
+    'bottom-margin-top': 20px,
+    'fill-color-0': getCssVar('color-white'),
+    'fill-color-1': mix(#000, $color, 10),
+    'fill-color-2': mix(#000, $color, 20),
+    'fill-color-3': mix(#000, $color, 30),
+    'fill-color-4': mix(#000, $color, 40),
+    'fill-color-5': mix(#000, $color, 50),
+    'fill-color-6': mix(#000, $color, 60),
+    'fill-color-7': mix(#000, $color, 70),
+    'fill-color-8': mix(#000, $color, 80),
+    'fill-color-9': mix(#000, $color, 90),
+  ),
+  $empty
+);

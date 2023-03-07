@@ -1,0 +1,5 @@
+{
+  "name": "@dsa-public/audit",
+  "type": "module",
+  "private": true
+}
